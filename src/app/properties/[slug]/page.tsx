@@ -1,6 +1,5 @@
-import { notFound } from 'next/navigation';
 import { getBaseUrl } from '@/lib/get-base-url';
-
+import { notFound } from 'next/navigation';
 
 // --- helpers ---
 const slugify = (s: string) =>
@@ -11,9 +10,10 @@ async function getApproved() {
   const res = await fetch(`${base}/api/reviews/approved`, { cache: 'no-store' as any });
   if (!res.ok) return [];
   const json = await res.json();
-  return json.reviews as any[];
+  return (json.reviews ?? []) as any[];
 }
-// Small star rating chip (shows only if ratingOverall exists)
+
+// Small star rating chip (only when overall rating exists)
 function StarChip({ value }: { value: number }) {
   return (
     <span className="inline-flex items-center gap-1 rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-300/20 dark:text-yellow-200 px-2 py-0.5 text-xs font-medium">
@@ -39,11 +39,9 @@ export default async function PropertyPage({
   );
 
   if (!approved.length) {
-    // nothing in the system at all (unlikely in your mock)
-    notFound();
+    notFound(); // no reviews in the system at all (unlikely with mocks)
   }
 
-  // page title: prefer the normalized listing name if present
   const title = list[0]?.listingName ?? decodeURIComponent(slug);
 
   return (
@@ -53,7 +51,7 @@ export default async function PropertyPage({
         <nav className="text-sm text-neutral-500">
           <a href="/" className="hover:underline">Home</a>
           <span className="mx-1">/</span>
-          <a href="/dashboard" className="hover:underline">Dashboard</a>
+          <a href="/properties" className="hover:underline">Properties</a>
           <span className="mx-1">/</span>
           <span className="text-neutral-700 dark:text-neutral-300">{title}</span>
         </nav>
@@ -73,6 +71,20 @@ export default async function PropertyPage({
           )}
         </div>
       </header>
+
+      {/* Optional info strip (subtle value props) */}
+      <section className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm">
+        <ul className="flex flex-wrap items-center gap-3 text-sm text-neutral-600 dark:text-neutral-300">
+          <li className="inline-flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            Fully furnished
+          </li>
+          <li>•</li>
+          <li>Professional cleaning</li>
+          <li>•</li>
+          <li>Flexible stays</li>
+        </ul>
+      </section>
 
       {/* Reviews section */}
       <section className="space-y-4">
@@ -101,7 +113,6 @@ export default async function PropertyPage({
 
                 <p className="mt-3 text-sm leading-6">{r.text}</p>
 
-                {/* Per-category scores if available */}
                 {Array.isArray(r.ratingsByCategory) && r.ratingsByCategory.length > 0 && (
                   <div className="mt-4 flex flex-wrap gap-2">
                     {r.ratingsByCategory.map((c: any) => (
