@@ -11,6 +11,14 @@ export function getStatus(id: string, approvals?: Map<string, boolean>): Status 
   return approvals.get(id) ? 'approved' : 'denied';
 }
 
+export function allCategories(reviews: Review[]): string[] {
+  const s = new Set<string>();
+  for (const r of reviews) {
+    for (const c of r.ratingsByCategory ?? []) s.add(c.category);
+  }
+  return Array.from(s).sort();
+}
+
 export function filterReviews(
   reviews: Review[],
   f: Filters,
@@ -32,6 +40,10 @@ export function filterReviews(
     }
 
     if (f.status !== 'all' && getStatus(r.id, approvals) !== f.status) return false;
+    if (f.category && f.category !== 'all') {
+      const hasCat = (r.ratingsByCategory ?? []).some(c => c.category === f.category);
+      if (!hasCat) return false;
+    }
 
     return true;
   });
