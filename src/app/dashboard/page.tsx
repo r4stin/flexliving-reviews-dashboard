@@ -8,7 +8,7 @@ import Metrics from './_components/Metrics';
 import FiltersBar from './_components/Filters';
 import ReviewsTable from './_components/ReviewsTable';
 import Charts from './_components/Charts';
-import { filterReviews, sortReviews, timeseriesAverage, channelDistribution, computedRating } from './_logic/compute';
+import { filterReviews, sortReviews, timeseriesAverage, channelDistribution, computedRating, allCategories } from './_logic/compute';
 import type { Filters, SortKey } from './types';
 
 export default function DashboardPage() {
@@ -18,12 +18,8 @@ export default function DashboardPage() {
 
   // ---- state
   const [filters, setFiltersState] = useState<Filters>({
-    property: 'all',
-    channel: 'all',
-    status: 'all',
-    dateFrom: '',
-    dateTo: '',
-    minRating: 0,
+    property: 'all', channel: 'all', status: 'all',
+    dateFrom: '', dateTo: '', minRating: 0, category: 'all'
   });
   const setFilters = (patch: Partial<Filters>) => setFiltersState(prev => ({ ...prev, ...patch }));
 
@@ -49,6 +45,9 @@ export default function DashboardPage() {
     reviews.forEach(r => { if (r.channel) s.add(r.channel); });
     return ['all', ...Array.from(s).sort()];
   }, [reviews]);
+
+  const categories = useMemo(() => allCategories(reviews), [reviews]);
+
 
   // ---- filtered & sorted
   const filtered = useMemo(() => filterReviews(reviews, filters, approvals), [reviews, filters, approvals]);
@@ -135,6 +134,7 @@ export default function DashboardPage() {
         setFilters={setFilters}
         allProperties={allProperties}
         allChannels={allChannels}
+        allCategories={categories}
         showCharts={showCharts}
         setShowCharts={setShowCharts}
       />
