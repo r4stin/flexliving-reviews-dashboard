@@ -1,5 +1,6 @@
 'use client';
 
+import * as Dialog from '@radix-ui/react-dialog';
 import Badge from '@/components/ui/Badge';
 import type { Review, SortKey, Status } from '../types';
 import { computedRating, getStatus } from '../_logic/compute';
@@ -80,7 +81,12 @@ export default function ReviewsTable({
                 <td className="px-4 py-3 text-left">{r.listingName ?? '—'}</td>
                 <td className="px-4 py-3 text-center">{r.reviewerName}</td>
                 <td className="px-4 py-3 text-center">{rating ?? '—'}</td>
-                <td className="px-4 py-3 max-w-[420px] text-center"><div className="line-clamp-2">{r.text}</div></td>
+                <td className="px-4 py-3 max-w-[420px] text-center">
+                  <div className="line-clamp-2">{r.text}</div>
+                  {Boolean(r.text) && (
+                    <ReviewDialog review={r} />
+                  )}
+                </td>
                 <td className="px-4 py-3 w-[140px] text-center">
                   <div className="w-24">
                     {st === 'approved' && <Badge className="w-24 justify-center">Approved</Badge>}
@@ -148,5 +154,80 @@ function Th({
         </span>
       </span>
     </th>
+  );
+}
+
+function ReviewDialog({ review }: { review: Review }) {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger asChild>
+        <button
+          className="mt-1 text-xs underline text-neutral-600 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-white"
+          title="Read full review"
+        >
+          Read
+        </button>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        {/* overlay */}
+        <Dialog.Overlay className="fixed inset-0 z-[1000] bg-black/40 data-[state=open]:animate-in data-[state=closed]:animate-out" />
+        {/* content */}
+        <Dialog.Content
+          className="fixed z-[1001] left-1/2 top-1/2 w-[92vw] max-w-xl -translate-x-1/2 -translate-y-1/2
+                     rounded-2xl border border-neutral-200 dark:border-neutral-800
+                     bg-white dark:bg-neutral-900 p-5 shadow-xl
+                     data-[state=open]:animate-in data-[state=closed]:animate-out"
+        >
+          <Dialog.Title className="text-base font-semibold">
+            Full review
+          </Dialog.Title>
+          <Dialog.Description className="mt-1 text-xs text-neutral-500">
+            {review.listingName ?? 'Property'} • {review.channel ?? 'other'} •{' '}
+            {new Date(review.submittedAt).toLocaleDateString()}
+          </Dialog.Description>
+
+          <div className="mt-4 space-y-3">
+            <div className="text-sm leading-7 whitespace-pre-wrap">
+              {review.text}
+            </div>
+
+            <div className="flex flex-wrap gap-2 pt-2 border-t border-neutral-200 dark:border-neutral-800">
+              <span className="text-xs text-neutral-500">Guest:</span>
+              <span className="text-xs font-medium">{review.reviewerName}</span>
+              {review.ratingOverall != null && (
+                <>
+                  <span className="text-xs text-neutral-500">•</span>
+                  <span className="text-xs">Overall: {review.ratingOverall}</span>
+                </>
+              )}
+              {review.ratingsByCategory?.length > 0 && (
+                <div className="w-full flex flex-wrap gap-2 pt-2">
+                  {review.ratingsByCategory.map(c => (
+                    <span
+                      key={c.category}
+                      className="inline-flex items-center rounded-full border border-neutral-200 dark:border-neutral-700
+                                 bg-neutral-50 dark:bg-neutral-800 px-2 py-0.5 text-xs"
+                    >
+                      {c.category}: {c.rating}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="mt-5 flex justify-end">
+            <Dialog.Close asChild>
+              <button
+                className="rounded-lg border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 text-sm hover:bg-neutral-50 dark:hover:bg-neutral-800"
+                aria-label="Close"
+              >
+                Close
+              </button>
+            </Dialog.Close>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }
