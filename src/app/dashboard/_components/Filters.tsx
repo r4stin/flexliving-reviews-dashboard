@@ -8,12 +8,13 @@ type Props = {
   setFilters: (f: Partial<Filters>) => void;
   allProperties: string[];
   allChannels: string[];
+  allCategories: string[];
   showCharts: boolean;
   setShowCharts: (b: boolean) => void;
 };
 
 export default function FiltersBar({
-  filters, setFilters, allProperties, allChannels, showCharts, setShowCharts,
+  filters, setFilters, allProperties, allChannels, allCategories, showCharts, setShowCharts,
 }: Props) {
   const { property, channel, status, dateFrom, dateTo, minRating } = filters;
 
@@ -26,6 +27,13 @@ export default function FiltersBar({
 
         <SelectField label="Channel" value={channel} onValueChange={(v)=>setFilters({channel: v})}>
           {allChannels.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+        </SelectField>
+
+        <SelectField label="Category"
+          value={filters.category ?? 'all'}
+          onValueChange={(v)=>setFilters({ category: v as any })}>
+          <SelectItem value="all">all</SelectItem>
+          {allCategories.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
         </SelectField>
 
         <SelectField label="Status" value={status} onValueChange={(v)=>setFilters({status: v as any})}>
@@ -59,7 +67,7 @@ export default function FiltersBar({
 
         <div className="flex items-end">
           <button
-            onClick={() => setFilters({ property: 'all', channel: 'all', status: 'all', dateFrom: '', dateTo: '', minRating: 0 })}
+            onClick={() => setFilters({ property: 'all', channel: 'all', category: 'all', status: 'all', dateFrom: '', dateTo: '', minRating: 0 })}
             className="w-full rounded-lg border border-neutral-200 dark:border-neutral-800 px-3 py-2 text-neutral-900 dark:text-neutral-100"
           >
             Reset
