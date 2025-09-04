@@ -36,3 +36,13 @@ export async function DELETE(req: Request) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true });
 }
+
+export async function GET() {
+  return NextResponse.json({
+    message: 'Use POST to approve/deny and DELETE to set pending',
+    examples: {
+      POST: { reviewId: 'id', approved: true },
+      DELETE: '/api/reviews/approve?reviewId=id'
+    }
+  });
+}
