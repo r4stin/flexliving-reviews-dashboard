@@ -30,4 +30,5 @@ export type Filters = {
   dateFrom: string; // yyyy-mm-dd
   dateTo: string;   // yyyy-mm-dd
   minRating: number;
+  category?: 'all' | string;
 };
