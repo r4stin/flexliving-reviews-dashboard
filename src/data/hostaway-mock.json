@@ -14,5 +14,115 @@
     "channel": "airbnb",
     "status": "published",
     "rating": null
+  },
+  {
+    "id": 7454,
+    "type": "guest-to-host",
+    "publicReview": "The apartment was clean and cozy, but the WiFi kept dropping. Location was perfect though.",
+    "submittedAt": "2021-01-11T10:20:00.000Z",
+    "guestName": "Anna Müller",
+    "listingName": "2B N1 A - 29 Shoreditch Heights",
+    "reviewCategory": [
+      { "name": "cleanliness", "rating": 9 },
+      { "name": "communication", "rating": 8 },
+      { "name": "wifi", "rating": 5 }
+    ],
+    "channel": "booking",
+    "status": "published",
+    "rating": 7
+  },
+  {
+    "id": 7455,
+    "type": "guest-to-host",
+    "publicReview": "Great location, but check-in was confusing and we had to wait 30 minutes for the host.",
+    "submittedAt": "2022-06-05T15:30:00.000Z",
+    "guestName": "Marco Rossi",
+    "listingName": "1BR City Loft - Camden",
+    "reviewCategory": [
+      { "name": "location", "rating": 10 },
+      { "name": "checkin", "rating": 4 }
+    ],
+    "channel": "airbnb",
+    "status": "published",
+    "rating": 6
+  },
+  {
+    "id": 7456,
+    "type": "guest-to-host",
+    "publicReview": "Very noisy at night due to the street. Bed was uncomfortable. Wouldn’t recommend for light sleepers.",
+    "submittedAt": "2023-02-18T22:00:00.000Z",
+    "guestName": "Emily Johnson",
+    "listingName": "1BR City Loft - Camden",
+    "reviewCategory": [
+      { "name": "noise", "rating": 3 },
+      { "name": "comfort", "rating": 4 }
+    ],
+    "channel": "direct",
+    "status": "published",
+    "rating": 4
+  },
+  {
+    "id": 7457,
+    "type": "guest-to-host",
+    "publicReview": "Amazing stay! The host was super responsive, apartment spotless, and everything worked perfectly.",
+    "submittedAt": "2023-05-10T09:00:00.000Z",
+    "guestName": "David Kim",
+    "listingName": "Studio Flat - Soho",
+    "reviewCategory": [
+      { "name": "cleanliness", "rating": 10 },
+      { "name": "communication", "rating": 10 },
+      { "name": "amenities", "rating": 9 }
+    ],
+    "channel": "google",
+    "status": "published",
+    "rating": 9
+  },
+  {
+    "id": 7458,
+    "type": "guest-to-host",
+    "publicReview": "Check-in was smooth and the host was kind, but the apartment smelled a bit damp. WiFi was slow too.",
+    "submittedAt": "2023-07-22T18:40:00.000Z",
+    "guestName": "Laura Smith",
+    "listingName": "Studio Flat - Soho",
+    "reviewCategory": [
+      { "name": "checkin", "rating": 9 },
+      { "name": "cleanliness", "rating": 6 },
+      { "name": "wifi", "rating": 5 }
+    ],
+    "channel": "booking",
+    "status": "published",
+    "rating": 6
+  },
+  {
+    "id": 7459,
+    "type": "guest-to-host",
+    "publicReview": "Perfect value for the price. Small but had everything we needed. Quiet area, slept well.",
+    "submittedAt": "2024-03-12T12:15:00.000Z",
+    "guestName": "Carlos García",
+    "listingName": "2B N1 A - 29 Shoreditch Heights",
+    "reviewCategory": [
+      { "name": "value", "rating": 10 },
+      { "name": "comfort", "rating": 9 },
+      { "name": "noise", "rating": 8 }
+    ],
+    "channel": "airbnb",
+    "status": "published",
+    "rating": 9
+  },
+  {
+    "id": 7460,
+    "type": "guest-to-host",
+    "publicReview": "Terrible experience. The apartment was dirty, WiFi didn’t work, and the host never replied.",
+    "submittedAt": "2024-07-01T21:00:00.000Z",
+    "guestName": "Sarah Lee",
+    "listingName": "Studio Flat - Soho",
+    "reviewCategory": [
+      { "name": "cleanliness", "rating": 2 },
+      { "name": "wifi", "rating": 1 },
+      { "name": "communication", "rating": 1 }
+    ],
+    "channel": "airbnb",
+    "status": "published",
+    "rating": 2
   }
 ]
