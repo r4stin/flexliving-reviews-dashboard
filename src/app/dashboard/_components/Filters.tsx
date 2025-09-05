@@ -14,6 +14,10 @@ type Props = {
   setShowIssuesPanel: (b: boolean) => void;
   showHistoryPanel: boolean;
   setShowHistoryPanel: (b: boolean) => void;
+
+  // NEW:
+  includeGoogle: boolean;
+  setIncludeGoogle: (b: boolean) => void;
 };
 
 export default function FiltersBar({
@@ -21,6 +25,9 @@ export default function FiltersBar({
   allProperties, allChannels, allCategories,
   showIssuesPanel, setShowIssuesPanel,
   showHistoryPanel, setShowHistoryPanel,
+
+  // NEW:
+  includeGoogle, setIncludeGoogle,
 }: Props) {
   const { property, channel, status, dateFrom, dateTo, minRating, category } = filters;
 
@@ -126,7 +133,7 @@ export default function FiltersBar({
           )}
         </div>
 
-        {/* Min Rating — switch to Select like /properties */}
+        {/* Min Rating — select */}
         <SelectField label="Rating" value={String(minRating)} onValueChange={(v)=>setFilters({minRating: Number(v)})}>
           <SelectItem value="0">All ratings</SelectItem>
           <SelectItem value="9">9.0+</SelectItem>
@@ -151,7 +158,7 @@ export default function FiltersBar({
         </div>
       </div>
 
-      {/* Toggles for side panels (unchanged behavior) */}
+      {/* Toggles */}
       <div className="mt-3 flex flex-wrap items-center gap-6">
         <label className="inline-flex items-center gap-2 text-sm">
           <input
@@ -170,8 +177,17 @@ export default function FiltersBar({
           />
           <span>Show recurring issues</span>
         </label>
+
+        {/* NEW: Include Google */}
+        <label className="inline-flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={includeGoogle}
+            onChange={e=>setIncludeGoogle(e.target.checked)}
+          />
+          <span>Include Google reviews</span>
+        </label>
       </div>
     </section>
   );
 }
-
