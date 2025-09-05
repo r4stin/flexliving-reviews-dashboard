@@ -53,7 +53,7 @@ export default function FlexBar() {
           {/* Right: Simple links */}
           <div className="hidden md:flex items-center space-x-6">
             <Link
-              href="/properties"
+              href="./"
               className={[
                 'text-sm font-medium',
                 scrolled ? 'text-white hover:opacity-90' : 'text-[#333333]',
