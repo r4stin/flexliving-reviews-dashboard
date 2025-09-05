@@ -7,9 +7,11 @@ import useApprovals from './_hooks/useApprovals';
 import Metrics from './_components/Metrics';
 import FiltersBar from './_components/Filters';
 import ReviewsTable from './_components/ReviewsTable';
-import Charts from './_components/Charts';
 import { filterReviews, sortReviews, timeseriesAverage, channelDistribution, computedRating, allCategories } from './_logic/compute';
 import type { Filters, SortKey } from './types';
+import IssuesSidePanel from './_components/IssuesSidePanel';
+import ChartsSidePanel from './_components/ChartsSidePanel';
+
 
 export default function DashboardPage() {
   const qc = useQueryClient();
@@ -23,7 +25,9 @@ export default function DashboardPage() {
   });
   const setFilters = (patch: Partial<Filters>) => setFiltersState(prev => ({ ...prev, ...patch }));
 
-  const [showCharts, setShowCharts] = useState(false);
+  const [showHistoryPanel, setShowHistoryPanel] = useState(false);
+  const [showIssuesPanel, setShowIssuesPanel] = useState(false);
+
 
   type Dir = 'asc' | 'desc';
   const [sortKey, setSortKey] = useState<SortKey>('date');
@@ -135,22 +139,65 @@ export default function DashboardPage() {
         allProperties={allProperties}
         allChannels={allChannels}
         allCategories={categories}
-        showCharts={showCharts}
-        setShowCharts={setShowCharts}
+        showIssuesPanel={showIssuesPanel}
+        setShowIssuesPanel={setShowIssuesPanel}
+        showHistoryPanel={showHistoryPanel}
+        setShowHistoryPanel={setShowHistoryPanel}
       />
 
-      <ReviewsTable
-        reviews={isLoading ? [] : sorted}
-        approvals={approvals}
-        sortKey={sortKey}
-        sortDir={sortDir}
-        onSort={onSort}
-        onApprove={(id) => approve.mutate(id)}
-        onDeny={(id) => deny.mutate(id)}
-        onPending={(id) => pending.mutate(id)}
-      />
+      {/* --- Side rails positioned OUTSIDE the centered container --- */}
+      {/* We do NOT add padding to the wrapper, so the center width never changes */}
 
-      {showCharts && <Charts timeseries={ts} channelDist={cd} />}
+      {/* LEFT: Historical charts rail */}
+      {showHistoryPanel && (
+        <aside
+          className="hidden 2xl:flex fixed top-50 h-[calc(100vh-6rem)] w-[300px] overflow-auto z-20
+                    border-r border-neutral-200 dark:border-neutral-800
+                    bg-white dark:bg-neutral-900
+                    rounded-2xl shadow-lg"   // ⬅ added rounding + shadow
+          style={{
+            left: 'calc(50vw - 36rem - 300px)',
+          }}
+        >
+          <div className="w-full p-4">
+            <ChartsSidePanel timeseries={ts} channelDist={cd} />
+          </div>
+        </aside>
+      )}
+
+      {/* RIGHT: Recurring issues rail */}
+      {showIssuesPanel && (
+        <aside
+          className="hidden 2xl:flex fixed top-50 h-[calc(100vh-6rem)] w-[340px] overflow-auto z-20
+                    border-l border-neutral-200 dark:border-neutral-800
+                    bg-white dark:bg-neutral-900
+                    rounded-2xl shadow-lg"   // ⬅ same here
+          style={{
+            left: 'calc(50vw + 36rem)',
+          }}
+        >
+          <div className="w-full p-4">
+            <IssuesSidePanel reviews={sorted} />
+          </div>
+        </aside>
+      )}
+
+
+      {/* CENTER stays exactly the same width as before */}
+      <div className="mx-auto max-w-6xl space-y-6">
+        <ReviewsTable
+          reviews={isLoading ? [] : sorted}
+          approvals={approvals}
+          sortKey={sortKey}
+          sortDir={sortDir}
+          onSort={onSort}
+          onApprove={(id) => approve.mutate(id)}
+          onDeny={(id) => deny.mutate(id)}
+          onPending={(id) => pending.mutate(id)}
+        />
+      </div>
+
+
     </div>
   );
 }
