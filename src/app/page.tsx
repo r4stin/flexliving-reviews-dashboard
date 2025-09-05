@@ -1,6 +1,5 @@
-import { redirect } from 'next/navigation';
+import PropertiesIndex from './properties/page';
 
 export default function Home() {
-  // Send the root "/" to the public properties page
-  redirect('/properties');
+  return <PropertiesIndex />;
 }

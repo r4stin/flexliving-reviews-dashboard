@@ -127,7 +127,7 @@ export default function DashboardPage() {
         className="mb-6"
         rightActions={
           <Link
-            href="/properties"
+            href="./"
             className="inline-flex items-center rounded-xl px-3 py-2 text-sm font-medium
                       bg-[#284E4C] text-white hover:bg-[#1d3b39]"
           >
