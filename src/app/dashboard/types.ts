@@ -32,3 +32,6 @@ export type Filters = {
   minRating: number;
   category?: 'all' | string;
 };
+
+export type TimeseriesPoint = { day: string; avg: number | null };
+export type ChannelRow = { name: string; count: number };
