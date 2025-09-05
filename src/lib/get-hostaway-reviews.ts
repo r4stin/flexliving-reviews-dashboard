@@ -1,3 +1,4 @@
+// src/lib/get-hostaway-reviews.ts
 import { normalizeReviews } from '@/lib/normalize-reviews';
 import mock from '@/data/hostaway-mock.json';
 import { getHostawayToken } from '@/lib/hostaway';
@@ -18,31 +19,48 @@ export type NormalizedReview = {
 
 export async function getHostawayReviews(): Promise<{ reviews: NormalizedReview[]; source: 'mock' | 'hostaway' }> {
   try {
-    let reviewsRaw: any[] = (mock as any)?.reviews ?? (Array.isArray(mock) ? (mock as any[]) : []);
+    // Start from mock (covers sandbox/no data)
+    const mockArray =
+      Array.isArray((mock as any)?.reviews)
+        ? (mock as any).reviews
+        : Array.isArray((mock as any)?.data)
+        ? (mock as any).data
+        : Array.isArray(mock as any)
+        ? (mock as any as any[])
+        : [];
+
+    let raw: any[] = mockArray;
     let source: 'mock' | 'hostaway' = 'mock';
 
-    // Try live token
+    // Try live Hostaway (optional)
     const token = await getHostawayToken();
     if (token) {
       const res = await fetch('https://api.hostaway.com/v1/reviews', {
         headers: { Authorization: `Bearer ${token}`, 'Cache-Control': 'no-cache' },
-        // @ts-expect-error – Next runtime option
-        cache: 'no-store',
+        cache: 'no-store', // valid RequestCache type, no suppression needed
       });
       if (res.ok) {
         const apiJson = await res.json();
         const list = Array.isArray(apiJson?.result) ? apiJson.result : [];
         if (list.length > 0) {
-          reviewsRaw = list;
+          raw = list;
           source = 'hostaway';
         }
       }
     }
 
-    const reviews = normalizeReviews(reviewsRaw);
+    const reviews = normalizeReviews(raw);
     return { reviews, source };
   } catch {
     // Always return mocks on failure (keeps UI working)
-    return { reviews: normalizeReviews((mock as any)?.reviews ?? []), source: 'mock' };
+    const fallback =
+      Array.isArray((mock as any)?.reviews)
+        ? (mock as any).reviews
+        : Array.isArray((mock as any)?.data)
+        ? (mock as any).data
+        : Array.isArray(mock as any)
+        ? (mock as any as any[])
+        : [];
+    return { reviews: normalizeReviews(fallback), source: 'mock' };
   }
 }
