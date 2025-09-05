@@ -9,14 +9,19 @@ type Props = {
   allProperties: string[];
   allChannels: string[];
   allCategories: string[];
-  showCharts: boolean;
-  setShowCharts: (b: boolean) => void;
+  showIssuesPanel: boolean;
+  setShowIssuesPanel: (b: boolean) => void;
+  showHistoryPanel: boolean;
+  setShowHistoryPanel: (b: boolean) => void;
 };
 
 export default function FiltersBar({
-  filters, setFilters, allProperties, allChannels, allCategories, showCharts, setShowCharts,
+  filters, setFilters,
+  allProperties, allChannels, allCategories,
+  showIssuesPanel, setShowIssuesPanel,
+  showHistoryPanel, setShowHistoryPanel,
 }: Props) {
-  const { property, channel, status, dateFrom, dateTo, minRating } = filters;
+  const { property, channel, status, dateFrom, dateTo, minRating, category } = filters;
 
   return (
     <section className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-4 shadow-sm relative z-20">
@@ -29,9 +34,7 @@ export default function FiltersBar({
           {allChannels.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
         </SelectField>
 
-        <SelectField label="Category"
-          value={filters.category ?? 'all'}
-          onValueChange={(v)=>setFilters({ category: v as any })}>
+        <SelectField label="Category" value={category ?? 'all'} onValueChange={(v)=>setFilters({ category: v as any })}>
           <SelectItem value="all">all</SelectItem>
           {allCategories.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
         </SelectField>
@@ -67,7 +70,7 @@ export default function FiltersBar({
 
         <div className="flex items-end">
           <button
-            onClick={() => setFilters({ property: 'all', channel: 'all', category: 'all', status: 'all', dateFrom: '', dateTo: '', minRating: 0 })}
+            onClick={() => setFilters({ property: 'all', channel: 'all', status: 'all', dateFrom: '', dateTo: '', minRating: 0, category: 'all' })}
             className="w-full rounded-lg border border-neutral-200 dark:border-neutral-800 px-3 py-2 text-neutral-900 dark:text-neutral-100"
           >
             Reset
@@ -75,9 +78,25 @@ export default function FiltersBar({
         </div>
       </div>
 
-      <div className="mt-3 flex items-center gap-2">
-        <input id="hc" type="checkbox" checked={showCharts} onChange={e=>setShowCharts(e.target.checked)} />
-        <label htmlFor="hc" className="text-sm">Show historical charts</label>
+      {/* New: two toggles that show/hide side panels inline */}
+      <div className="mt-3 flex flex-wrap items-center gap-6">
+        <label className="inline-flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={showHistoryPanel}
+            onChange={e=>setShowHistoryPanel(e.target.checked)}
+          />
+          <span>Show historical charts</span>
+        </label>
+
+        <label className="inline-flex items-center gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={showIssuesPanel}
+            onChange={e=>setShowIssuesPanel(e.target.checked)}
+          />
+          <span>Show recurring issues</span>
+        </label>
       </div>
     </section>
   );
