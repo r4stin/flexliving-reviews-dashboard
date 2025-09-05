@@ -11,6 +11,7 @@ import { filterReviews, sortReviews, timeseriesAverage, channelDistribution, com
 import type { Filters, SortKey } from './types';
 import IssuesSidePanel from './_components/IssuesSidePanel';
 import ChartsSidePanel from './_components/ChartsSidePanel';
+import FlexTopBar from '@/components/ui/FlexTopBar';
 
 
 export default function DashboardPage() {
@@ -121,6 +122,8 @@ export default function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-6xl p-6 space-y-6">
+      <FlexTopBar className="mb-6" />
+
       <header className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Reviews Dashboard</h1>
         <div className="text-sm text-neutral-500 dark:text-neutral-400">The Flex · Manager view</div>

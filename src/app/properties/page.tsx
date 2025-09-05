@@ -1,6 +1,7 @@
 import { getBaseUrl } from '@/lib/get-base-url';
 import { LISTING_IMAGES } from '@/data/listing-images';
 import PropertiesGrid from './properties-grid';
+import FlexTopBar from '@/components/ui/FlexTopBar';
 
 type Review = {
   id: string;
@@ -101,6 +102,8 @@ export default async function PropertiesIndex() {
 
   return (
     <div className="mx-auto max-w-6xl p-6 space-y-6">
+      <FlexTopBar className="mb-6" />
+
       <header className="space-y-2">
         <h1 className="text-2xl font-bold tracking-tight">Properties</h1>
         <p className="text-sm text-neutral-600 dark:text-neutral-300">
