@@ -13,11 +13,17 @@ import IssuesSidePanel from './_components/IssuesSidePanel';
 import ChartsSidePanel from './_components/ChartsSidePanel';
 import Link from 'next/link';
 
+// NEW:
+import useGoogleReviews from './_hooks/useGoogleReviews';
 
 export default function DashboardPage() {
   const qc = useQueryClient();
-  const { data: reviews = [], isLoading } = useHostaway();
+  const { data: hostaway = [], isLoading } = useHostaway();
   const { data: approvals } = useApprovals();
+
+  // NEW: include Google toggle + data
+  const [includeGoogle, setIncludeGoogle] = useState(false);
+  const { data: googleReviews = [] } = useGoogleReviews(includeGoogle);
 
   // ---- state
   const [filters, setFiltersState] = useState<Filters>({
@@ -29,7 +35,6 @@ export default function DashboardPage() {
   const [showHistoryPanel, setShowHistoryPanel] = useState(false);
   const [showIssuesPanel, setShowIssuesPanel] = useState(false);
 
-
   type Dir = 'asc' | 'desc';
   const [sortKey, setSortKey] = useState<SortKey>('date');
   const [sortDir, setSortDir] = useState<Dir>('desc');
@@ -38,24 +43,28 @@ export default function DashboardPage() {
     else { setSortKey(key); setSortDir('asc'); }
   };
 
+  // NEW: base list (merge Hostaway + Google when enabled)
+  const base = useMemo(() => {
+    return includeGoogle ? [...hostaway, ...googleReviews] : hostaway;
+  }, [includeGoogle, hostaway, googleReviews]);
+
   // ---- options
   const allProperties = useMemo(() => {
     const s = new Set<string>();
-    reviews.forEach(r => { if (r.listingName) s.add(r.listingName); });
+    base.forEach(r => { if (r.listingName) s.add(r.listingName); });
     return ['all', ...Array.from(s).sort()];
-  }, [reviews]);
+  }, [base]);
 
   const allChannels = useMemo(() => {
     const s = new Set<string>();
-    reviews.forEach(r => { if (r.channel) s.add(r.channel); });
+    base.forEach(r => { if (r.channel) s.add(r.channel); });
     return ['all', ...Array.from(s).sort()];
-  }, [reviews]);
+  }, [base]);
 
-  const categories = useMemo(() => allCategories(reviews), [reviews]);
-
+  const categories = useMemo(() => allCategories(base), [base]);
 
   // ---- filtered & sorted
-  const filtered = useMemo(() => filterReviews(reviews, filters, approvals), [reviews, filters, approvals]);
+  const filtered = useMemo(() => filterReviews(base, filters, approvals), [base, filters, approvals]);
   const sorted = useMemo(() => sortReviews(filtered, sortKey, sortDir, approvals), [filtered, sortKey, sortDir, approvals]);
 
   // ---- metrics
@@ -84,7 +93,7 @@ export default function DashboardPage() {
   const ts = useMemo(() => timeseriesAverage(sorted), [sorted]);
   const cd = useMemo(() => channelDistribution(sorted), [sorted]);
 
-  // ---- actions (mutations)
+  // ---- actions (mutations) — unchanged
   const approve = useMutation({
     mutationFn: async (reviewId: string) => {
       const res = await fetch('/api/reviews/approve', {
@@ -122,7 +131,6 @@ export default function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-6xl p-6 space-y-6">
-  
       <header className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Reviews Dashboard</h1>
         <div className="text-sm text-neutral-500 dark:text-neutral-400">The Flex · Manager view</div>
@@ -145,20 +153,21 @@ export default function DashboardPage() {
         setShowIssuesPanel={setShowIssuesPanel}
         showHistoryPanel={showHistoryPanel}
         setShowHistoryPanel={setShowHistoryPanel}
+        // NEW:
+        includeGoogle={includeGoogle}
+        setIncludeGoogle={setIncludeGoogle}
       />
 
-      {/* --- Side rails positioned OUTSIDE the centered container --- */}
-      {/* LEFT rail */}
+      {/* --- Side rails (unchanged) --- */}
       {showHistoryPanel && (
         <aside
           className="hidden 2xl:flex fixed z-20 w-[300px] overflow-auto
                     border-r border-neutral-200 dark:border-neutral-800
                     bg-white dark:bg-neutral-900 rounded-2xl shadow-lg"
           style={{
-            // below the fixed header:
-            top: '96px',                         // header(88) + small gap
-            left: 'calc(50vw - 36rem - 300px)', // your previous calc
-            height: 'calc(100vh - 96px - 16px)' // full height minus header & gap
+            top: '96px',
+            left: 'calc(50vw - 36rem - 300px)',
+            height: 'calc(100vh - 96px - 16px)'
           }}
         >
           <div className="w-full p-4">
@@ -167,7 +176,6 @@ export default function DashboardPage() {
         </aside>
       )}
 
-      {/* RIGHT rail */}
       {showIssuesPanel && (
         <aside
           className="hidden 2xl:flex fixed z-20 w-[340px] overflow-auto
@@ -185,9 +193,7 @@ export default function DashboardPage() {
         </aside>
       )}
 
-
-
-      {/* CENTER stays exactly the same width as before */}
+      {/* Center unchanged */}
       <div className="mx-auto max-w-6xl space-y-6">
         <ReviewsTable
           reviews={isLoading ? [] : sorted}
@@ -200,8 +206,6 @@ export default function DashboardPage() {
           onPending={(id) => pending.mutate(id)}
         />
       </div>
-
-
     </div>
   );
 }
