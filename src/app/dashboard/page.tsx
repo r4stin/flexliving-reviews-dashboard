@@ -12,7 +12,6 @@ import type { Filters, SortKey } from './types';
 import IssuesSidePanel from './_components/IssuesSidePanel';
 import ChartsSidePanel from './_components/ChartsSidePanel';
 import Link from 'next/link';
-import FlexTopBar from '@/components/ui/FlexTopBar';
 
 
 export default function DashboardPage() {
@@ -123,19 +122,7 @@ export default function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-6xl p-6 space-y-6">
-      <FlexTopBar
-        className="mb-6"
-        rightActions={
-          <Link
-            href="./"
-            className="inline-flex items-center rounded-xl px-3 py-2 text-sm font-medium
-                      bg-[#284E4C] text-white hover:bg-[#1d3b39]"
-          >
-            ← Properties
-          </Link>
-        }
-      />
-
+  
       <header className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Reviews Dashboard</h1>
         <div className="text-sm text-neutral-500 dark:text-neutral-400">The Flex · Manager view</div>
@@ -161,17 +148,17 @@ export default function DashboardPage() {
       />
 
       {/* --- Side rails positioned OUTSIDE the centered container --- */}
-      {/* We do NOT add padding to the wrapper, so the center width never changes */}
-
-      {/* LEFT: Historical charts rail */}
+      {/* LEFT rail */}
       {showHistoryPanel && (
         <aside
-          className="hidden 2xl:flex fixed top-50 h-[calc(100vh-6rem)] w-[300px] overflow-auto z-20
+          className="hidden 2xl:flex fixed z-20 w-[300px] overflow-auto
                     border-r border-neutral-200 dark:border-neutral-800
-                    bg-white dark:bg-neutral-900
-                    rounded-2xl shadow-lg"   // ⬅ added rounding + shadow
+                    bg-white dark:bg-neutral-900 rounded-2xl shadow-lg"
           style={{
-            left: 'calc(50vw - 36rem - 300px)',
+            // below the fixed header:
+            top: '96px',                         // header(88) + small gap
+            left: 'calc(50vw - 36rem - 300px)', // your previous calc
+            height: 'calc(100vh - 96px - 16px)' // full height minus header & gap
           }}
         >
           <div className="w-full p-4">
@@ -180,15 +167,16 @@ export default function DashboardPage() {
         </aside>
       )}
 
-      {/* RIGHT: Recurring issues rail */}
+      {/* RIGHT rail */}
       {showIssuesPanel && (
         <aside
-          className="hidden 2xl:flex fixed top-50 h-[calc(100vh-6rem)] w-[340px] overflow-auto z-20
+          className="hidden 2xl:flex fixed z-20 w-[340px] overflow-auto
                     border-l border-neutral-200 dark:border-neutral-800
-                    bg-white dark:bg-neutral-900
-                    rounded-2xl shadow-lg"   // ⬅ same here
+                    bg-white dark:bg-neutral-900 rounded-2xl shadow-lg"
           style={{
+            top: '96px',
             left: 'calc(50vw + 36rem)',
+            height: 'calc(100vh - 96px - 16px)'
           }}
         >
           <div className="w-full p-4">
@@ -196,6 +184,7 @@ export default function DashboardPage() {
           </div>
         </aside>
       )}
+
 
 
       {/* CENTER stays exactly the same width as before */}

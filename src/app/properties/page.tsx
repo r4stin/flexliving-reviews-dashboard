@@ -1,8 +1,6 @@
 import { getBaseUrl } from '@/lib/get-base-url';
 import { LISTING_IMAGES } from '@/data/listing-images';
 import PropertiesGrid from './properties-grid';
-import FlexTopBar from '@/components/ui/FlexTopBar';
-import Link from 'next/link';
 
 type Review = {
   id: string;
@@ -103,20 +101,7 @@ export default async function PropertiesIndex() {
 
   return (
     <div className="mx-auto max-w-6xl p-6 space-y-6">
-      <FlexTopBar
-        className="mb-6"
-        rightActions={
-          <Link
-            href="/dashboard"
-            className="inline-flex items-center rounded-xl px-3 py-2 text-sm font-medium
-                      bg-[#284E4C] text-white hover:bg-[#1d3b39]"
-          >
-            Dashboard
-          </Link>
-        }
-      />
-
-
+  
       <header className="space-y-2">
         <h1 className="text-2xl font-bold tracking-tight">Properties</h1>
         <p className="text-sm text-neutral-600 dark:text-neutral-300">
