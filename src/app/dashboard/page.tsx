@@ -11,6 +11,7 @@ import { filterReviews, sortReviews, timeseriesAverage, channelDistribution, com
 import type { Filters, SortKey } from './types';
 import IssuesSidePanel from './_components/IssuesSidePanel';
 import ChartsSidePanel from './_components/ChartsSidePanel';
+import Link from 'next/link';
 import FlexTopBar from '@/components/ui/FlexTopBar';
 
 
@@ -122,7 +123,18 @@ export default function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-6xl p-6 space-y-6">
-      <FlexTopBar className="mb-6" />
+      <FlexTopBar
+        className="mb-6"
+        rightActions={
+          <Link
+            href="/properties"
+            className="inline-flex items-center rounded-xl px-3 py-2 text-sm font-medium
+                      bg-[#284E4C] text-white hover:bg-[#1d3b39]"
+          >
+            ← Properties
+          </Link>
+        }
+      />
 
       <header className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Reviews Dashboard</h1>

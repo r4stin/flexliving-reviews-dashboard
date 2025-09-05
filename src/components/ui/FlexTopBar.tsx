@@ -1,25 +1,30 @@
 'use client';
 
+import type { ReactNode } from 'react';
+
 type Props = {
   className?: string;
+  rightActions?: ReactNode; // <- NEW: area for a button/link on the right
 };
 
 /**
- * Simple top bar matching the warm Flex style:
- * - Warm background #FFF9E9
- * - Generous padding, rounded corners, shadow
- * - Left-aligned logo (inline SVG so you don’t need an asset)
+ * Warm Flex-style top bar with optional right-side actions.
  */
-export default function FlexTopBar({ className = '' }: Props) {
+export default function FlexTopBar({ className = '', rightActions }: Props) {
   return (
     <div
       className={`bg-[#FFF9E9] rounded-2xl p-2 sm:p-3 md:p-4 lg:p-6 shadow-lg ${className}`}
     >
-      <div className="flex items-center gap-3">
-        <img src="/logo.svg" alt="Flex" className="h-6 sm:h-7 md:h-8 w-auto" />
+      <div className="flex items-center justify-between">
+        {/* Logo (replace with an <img src="/logo.svg" /> if you have one) */}
+        <div className="flex items-center gap-3">
+          <img src="/logo.svg" alt="Flex" className="h-6 sm:h-7 md:h-8 w-auto" />
+        </div>
 
-        {/* Optional divider dot / tagline (remove if you want logo only) */}
-        {/* <span className="text-xs sm:text-sm md:text-base text-[#284E4C]/70">Reviews</span> */}
+        {/* Right-side actions (optional) */}
+        {rightActions ? (
+          <div className="flex items-center gap-2">{rightActions}</div>
+        ) : null}
       </div>
     </div>
   );
