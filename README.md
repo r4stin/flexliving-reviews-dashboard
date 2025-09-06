@@ -64,6 +64,6 @@ A modern dashboard for property managers to assess and manage guest reviews acro
 	 ```bash
 	 pnpm dev
 	 ```
-	 Visit [http://localhost:3000/dashboard](http://localhost:3000/dashboard) to view the dashboard.
+	 Visit [http://localhost:3000](http://localhost:3000/) for properties rating, and[http://localhost:3000/dashboard](http://localhost:3000/dashboard) to view the dashboard.
 
 
