@@ -29,7 +29,7 @@ export function normalizeGoogle(placeName: string, placeId: string, payload: any
       reviewerName: r?.author_name || 'Google User',
       role: 'guest-to-host',      // everything public is “guest” perspective
       status: 'published',
-      ratingOverall: typeof r?.rating === 'number' ? r.rating : null,
+      ratingOverall: typeof r?.rating === 'number' ? r.rating * 2 : null,
       ratingsByCategory: [],      // Google doesn’t provide category breakdown
       channel: 'google',
       submittedAt: when.toISOString(),
