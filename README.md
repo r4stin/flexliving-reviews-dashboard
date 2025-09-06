@@ -51,9 +51,13 @@ A modern dashboard for property managers to assess and manage guest reviews acro
 3. **Configure environment variables:**
 	 Create a `.env.local` file:
 	 ```
-	 HOSTAWAY_API_KEY=your_hostaway_api_key
-	 HOSTAWAY_ACCOUNT_ID=your_hostaway_account_id
-	 GOOGLE_PLACES_API_KEY=your_google_places_api_key
+    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+    SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+    HOSTAWAY_ACCOUNT_ID=your_hostaway_account_id
+    HOSTAWAY_API_KEY=your_hostaway_api_key
+    AI_PROVIDER=your_ai_provider
+    OPENROUTER_API_KEY=your_openrouter_api_key
+    GOOGLE_MAPS_API_KEY=your_google_maps_api_key
 	 ```
 
 4. **Start the development server:**
