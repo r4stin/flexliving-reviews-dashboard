@@ -22,8 +22,8 @@ A modern dashboard for property managers to assess and manage guest reviews acro
 - **Review Approval Workflow:**  
 	Managers select which reviews are displayed publicly, with approval status reflected in property detail pages.
 
-- **Extensible Architecture:**  
-	Ready for future integrations, including LLM-powered review analysis and sentiment detection.
+- **AI-Powered Insights (Built-in):**  
+  LLM-based sentiment analysis, aspect/theme extraction, and automatic recurring-issue detection across properties.
 
 
 ## Tech Stack
