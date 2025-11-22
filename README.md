@@ -2,7 +2,7 @@
 
 A modern dashboard for property managers to assess and manage guest reviews across properties.
 
-[![Live Demo](https://img.shields.io/badge/Demo-Live-green?style=for-the-badge)](https://flexliving-reviews-dashboard-two.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/Demo-Live-green?style=for-the-badge)](https://reviews-dashboard-two.vercel.app/)
 
 
 ## Features
@@ -39,8 +39,8 @@ A modern dashboard for property managers to assess and manage guest reviews acro
 
 1. **Clone the repository:**
 	 ```bash
-	 git clone https://github.com/r4stin/flexliving-reviews-dashboard.git
-	 cd flexliving-reviews-dashboard
+	 git clone https://github.com/r4stin/reviews-dashboard.git
+	 cd reviews-dashboard
 	 ```
 
 2. **Install dependencies:**
