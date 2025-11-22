@@ -62,34 +62,6 @@ A unified dashboard for analyzing and managing Airbnb/Hostaway + Google reviews 
 | Sentiment | `sentiment` npm package |
 | Maps | Google Maps JS API (optional) |
 
----
-
-## 📦 Environment Variables
-
-```env
-# Select AI provider: "openrouter" or "groq"
-AI_PROVIDER=openrouter
-
-# Required if AI_PROVIDER=openrouter
-OPENROUTER_API_KEY=your_openrouter_key
-
-# Required if AI_PROVIDER=groq
-GROQ_API_KEY=your_groq_key
-
-# Required for Google Reviews
-GOOGLE_MAPS_API_KEY=your_maps_key
-
-# Hostaway config
-HOSTAWAY_ACCOUNT_ID=...
-HOSTAWAY_API_KEY=...
-
-# Supabase (required for approvals to work)
-NEXT_PUBLIC_SUPABASE_URL=...
-SUPABASE_SERVICE_ROLE_KEY=...
-
-# Optional — used for Referer header when using OpenRouter
-NEXT_PUBLIC_BASE_URL=https://your-site.com
-```
 
 ---
 
