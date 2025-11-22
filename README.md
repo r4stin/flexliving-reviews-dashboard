@@ -1,6 +1,6 @@
-# Flex Living Reviews Dashboard
+# Reviews Dashboard
 
-A modern dashboard for property managers to assess and manage guest reviews across Flex Living properties.
+A modern dashboard for property managers to assess and manage guest reviews across properties.
 
 [![Live Demo](https://img.shields.io/badge/Demo-Live-green?style=for-the-badge)](https://flexliving-reviews-dashboard-two.vercel.app/)
 
