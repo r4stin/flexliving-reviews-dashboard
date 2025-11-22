@@ -67,39 +67,71 @@ A unified dashboard for analyzing and managing Airbnb/Hostaway + Google reviews 
 
 ## 🔧 Getting Started
 
-1. **Clone the repository:**
-	 ```bash
-	 git clone https://github.com/r4stin/reviews-dashboard.git
-	 cd reviews-dashboard
-	 ```
+Before running the app, create a `.env.local` file in the project root:
 
-2. **Install dependencies:**
-	 ```bash
-	 pnpm install
-	 ```
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+HOSTAWAY_ACCOUNT_ID=your_hostaway_account_id
+HOSTAWAY_API_KEY=your_hostaway_api_key
+AI_PROVIDER=your_ai_provider
+OPENROUTER_API_KEY=your_openrouter_api_key
+GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+```
 
-3. **Configure environment variables:**
-	 Create a `.env.local` file:
-	 ```
-    NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-    SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
-    HOSTAWAY_ACCOUNT_ID=your_hostaway_account_id
-    HOSTAWAY_API_KEY=your_hostaway_api_key
-    AI_PROVIDER=your_ai_provider
-    OPENROUTER_API_KEY=your_openrouter_api_key
-    GOOGLE_MAPS_API_KEY=your_google_maps_api_key
-	 ```
-
-4. **Start the development server:**
-	 ```bash
-	 pnpm dev
-	 ```
-	 Visit [http://localhost:3000](http://localhost:3000/) for properties rating, and [http://localhost:3000/dashboard](http://localhost:3000/dashboard) to view the dashboard.
-
-
-
+You can run the project **locally** or using **Docker**.
 
 ---
+
+### **▶ Option 1: Run Locally**
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/r4stin/reviews-dashboard.git
+   cd reviews-dashboard
+   ```
+
+2. **Install dependencies**
+   ```bash
+   pnpm install
+   ```
+
+3. **Start the dev server**
+   ```bash
+   pnpm dev
+   ```
+
+Open:
+
+- http://localhost:3000 → Properties overview  
+- http://localhost:3000/dashboard → Manager dashboard
+
+---
+
+### **🐳 Option 2: Run with Docker**
+
+1. **Build the image**
+   ```bash
+   docker build -t reviews-dashboard .
+   ```
+
+2. **Run the container**
+   ```bash
+   docker run \
+     --env-file .env.local \
+     -p 3000:3000 \
+     reviews-dashboard
+   ```
+
+Open:
+
+- http://localhost:3000 → Properties overview  
+- http://localhost:3000/dashboard → Manager dashboard
+
+> Supabase variables are required at runtime. Missing values disable review-moderation features.
+
+---
+
 
 ## 📜 License
 
